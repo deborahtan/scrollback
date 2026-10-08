@@ -1,0 +1,53 @@
+# Golden prompts for the Intent Router, written in Debbie's own phrasing.
+# Each entry: the prompt, the intent and chips we expect, and whether
+# "Did you mean" should appear. Debbie corrects these; they gate every release.
+version: 1
+prompts:
+  # Dinner
+  - prompt: quick easy dinner chicken thighs
+    expect: {intent: dinner, filters: {max_minutes: 30, include: [chicken thighs], effort: low}}
+    did_you_mean: false
+  - prompt: quick healthy fiber meal prep
+    expect: {intent: dinner, filters: {max_minutes: 30, vibe: [healthy, high fibre], meal_prep: true}}
+    did_you_mean: false
+  - prompt: quick easy dinner leftover rice
+    expect: {intent: dinner, filters: {max_minutes: 30, include: [rice], effort: low}}
+    did_you_mean: false
+  - prompt: high protein lunch prep no dairy
+    expect: {intent: dinner, filters: {vibe: [high protein], exclude: [dairy], meal_prep: true, meal: lunch}}
+    did_you_mean: false
+  - prompt: something cosy soup rainy night
+    expect: {intent: dinner, filters: {vibe: [cosy], dish_type: soup}}
+    did_you_mean: false
+  - prompt: lazy one pot dinner under 20 mins
+    expect: {intent: dinner, filters: {max_minutes: 20, effort: low, method: one pot}}
+    did_you_mean: false
+  - prompt: that ramen i saved
+    expect: {intent: more_like, filters: {like: {term: ramen}}}
+    did_you_mean: true   # several ramen saves -> show thumbnails
+  - prompt: dinner for 4 friends coming over
+    expect: {intent: dinner, filters: {servings: 4, occasion: hosting}}
+    did_you_mean: false
+
+  # Make / craft
+  - prompt: quick watercolour 30 mins
+    expect: {intent: make, filters: {medium: watercolour, max_minutes: 30}}
+    did_you_mean: false
+  - prompt: lino print idea simple
+    expect: {intent: make, filters: {medium: lino print, effort: low}}
+    did_you_mean: false
+  - prompt: zine page ideas this weekend
+    expect: {intent: make, filters: {medium: zine, when: weekend}}
+    did_you_mean: false
+  - prompt: urban sketching k rd
+    expect: {intent: make, filters: {medium: urban sketching, place: K Road}}
+    did_you_mean: true   # could also be things_to_do
+  - prompt: oil painting study small
+    expect: {intent: make, filters: {medium: oil, scale: small}}
+    did_you_mean: false
+  - prompt: something creative low effort tonight
+    expect: {intent: make, filters: {effort: low, when: tonight}}
+    did_you_mean: true   # offer mediums from catalogue
+  - prompt: make something with what i have
+    expect: {intent: null}
+    did_you_mean: true   # dinner or craft?
